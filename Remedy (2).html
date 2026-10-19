@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Remedy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#fbf8f0;--bg2:#f1f4ec;--card:#fffdf8;--ink:#2c3a35;--muted:#6b7a73;--line:#e3e6dc;
+  --sage:#7e9a86;--sage-d:#5f7d68;--sage-l:#e6eee4;--blue:#6f9bb8;--blue-d:#4d7a98;--blue-l:#e4eef5;
+  --warn:#b4552f;--warn-l:#fbeee6;--shadow:0 8px 28px rgba(70,95,80,.10);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1c2421;--bg2:#202a26;--card:#26312d;--ink:#e9eee9;--muted:#a3b2aa;--line:#36443e;
+  --sage-l:#2f4037;--blue-l:#2a3b47;--warn-l:#3b2a22;--warn:#efa27d;--shadow:0 8px 28px rgba(0,0,0,.3);}}
+:root[data-theme="dark"]{--bg:#1c2421;--bg2:#202a26;--card:#26312d;--ink:#e9eee9;--muted:#a3b2aa;--line:#36443e;--sage-l:#2f4037;--blue-l:#2a3b47;--warn-l:#3b2a22;--warn:#efa27d;--shadow:0 8px 28px rgba(0,0,0,.3)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);line-height:1.5;
+  background:radial-gradient(900px 500px at 8% -10%,var(--blue-l),transparent 60%),radial-gradient(800px 500px at 100% 0%,var(--sage-l),transparent 55%),var(--bg);
+  background-color:var(--bg);min-height:100vh}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 48px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+header svg{flex:none}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(24px,3.4vw,34px);margin:0;letter-spacing:-.01em}
+header p{margin:2px 0 0;color:var(--muted);font-size:14.5px;font-style:italic}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:26px}
+.card h2{font-family:Fraunces,Georgia,serif;font-weight:500;font-size:20px;margin:0 0 18px;display:flex;align-items:center;gap:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{margin-bottom:16px;min-width:0}
+label,.lab{display:block;font-size:13.5px;font-weight:500;margin-bottom:6px;color:var(--ink)}
+input[type=text],input[type=number],select,textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;outline:none;transition:border-color .2s,box-shadow .2s}
+textarea{resize:vertical;min-height:70px}
+textarea:disabled{opacity:.5}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-l)}
+.dur{display:grid;grid-template-columns:1fr 1.2fr;gap:8px}
+.chk{display:flex;align-items:center;gap:8px;margin-top:8px;margin-bottom:0;font-size:13.5px;font-weight:400;color:var(--muted);cursor:pointer}
+.chk input{accent-color:var(--sage-d);width:16px;height:16px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{margin:0;text-align:center;padding:10px 6px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;background:var(--bg);font-size:14px;transition:all .2s}
+.seg input:checked+label{background:var(--sage-l);border-color:var(--sage);color:var(--sage-d);font-weight:600}
+.seg input:focus-visible+label{box-shadow:0 0 0 4px var(--blue-l)}
+.seg>div{position:relative}
+.err{color:var(--warn);font-size:13px;min-height:18px;margin:4px 0 8px}
+button.main{width:100%;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:16px;color:#fff;padding:14px;border-radius:14px;background:linear-gradient(135deg,var(--sage-d),var(--blue-d));box-shadow:0 8px 20px rgba(77,122,152,.25);transition:transform .15s,opacity .2s}
+button.main:hover{transform:translateY(-1px)}
+button.main:disabled{opacity:.7;cursor:wait;transform:none}
+.out{position:sticky;top:20px;min-height:340px}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);padding:40px 10px;gap:14px;min-height:260px}
+.empty p{margin:0;max-width:260px;font-size:14.5px}
+.res{animation:fade .45s ease both}
+.hi{margin:0 0 16px;font-size:15.5px;color:var(--ink);background:var(--blue-l);border-radius:14px;padding:12px 14px}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.top h2{margin:0}
+.copy{font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;color:var(--blue-d);background:var(--blue-l);border:0;border-radius:10px;padding:8px 14px}
+.warn{background:var(--warn-l);border:1.5px solid var(--warn);border-radius:16px;padding:14px 16px;margin:14px 0;color:var(--ink)}
+.warn b{display:flex;align-items:center;gap:8px;color:var(--warn);margin-bottom:4px;font-size:15px}
+.warn.soft{border-width:1px}
+.sec{padding:14px 0;border-top:1px solid var(--line)}
+.sec.first{border-top:0;padding-top:0}
+.sec h3{margin:0 0 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-d);font-weight:600}
+.sec p,.sec li{margin:0;font-size:15px}
+.sec ul{margin:0;padding-left:18px}
+.sec.hl{background:linear-gradient(135deg,var(--sage-l),var(--blue-l));border:1.5px solid var(--sage);border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 4px 16px rgba(95,125,104,.15)}
+.sec.hl h3{color:var(--sage-d);font-size:12.5px}
+.sec.hl.alt{background:linear-gradient(135deg,var(--blue-l),var(--sage-l));border-color:var(--blue);box-shadow:0 4px 16px rgba(77,122,152,.15)}
+.sec.hl.alt h3{color:var(--blue-d)}
+.sec.hl.alt li{margin:5px 0}
+.med{background:var(--card);border-left:5px solid var(--sage-d);border-radius:12px;padding:12px 14px;margin-top:8px;box-shadow:0 2px 8px rgba(70,95,80,.08)}
+.med:first-of-type{margin-top:0}
+.med strong{display:block;font-size:17px;font-family:Fraunces,Georgia,serif;font-weight:600;color:var(--sage-d);margin-bottom:2px}
+.med span{color:var(--ink)}
+.med span{display:block;font-size:14px;color:var(--muted)}
+.note{margin:16px 0 0;font-size:12px;color:var(--muted)}
+.spin{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--sage-d);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (max-width:860px){.grid{grid-template-columns:1fr}.out{position:static}.card{padding:20px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="var(--sage-l)"/><g transform="rotate(-40 24 24)"><rect x="9" y="16" width="30" height="16" rx="8" fill="var(--card)" stroke="var(--sage-d)" stroke-width="2"/><path d="M24 16h7a8 8 0 0 1 0 16h-7z" fill="var(--blue)"/><path d="M24 16v16" stroke="var(--sage-d)" stroke-width="2"/></g></svg>
+    <div><h1>Remedy</h1><p>Your first step towards feeling better</p></div>
+  </header>
+
+  <div class="grid">
+    <form class="card" id="form" novalidate autocomplete="off">
+      <h2><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--sage-d)" stroke-width="1.8" stroke-linecap="round"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>About you</h2>
+
+      <div class="row">
+        <div class="f"><label for="name">Name</label><input type="text" id="name"></div>
+        <div class="f"><label for="age">Age (years)</label><input type="number" id="age" min="0" max="120"></div>
+      </div>
+
+      <div class="f"><label for="gender">Gender</label>
+        <select id="gender"><option value=""></option><option>Female</option><option>Male</option><option>Other</option></select></div>
+
+      <div class="f"><label for="cond">Existing medical conditions</label>
+        <textarea id="cond"></textarea>
+        <label class="chk"><input type="checkbox" id="condNone"> No existing conditions</label></div>
+
+      <div class="f"><label for="allergy">Allergies</label>
+        <textarea id="allergy"></textarea>
+        <label class="chk"><input type="checkbox" id="allergyNone"> No known allergies</label></div>
+
+      <div class="f"><label for="meds">Medications taken in the past 7 days</label>
+        <textarea id="meds"></textarea>
+        <label class="chk"><input type="checkbox" id="medsNone"> No medications taken</label></div>
+
+      <div class="f"><label for="symp">Symptoms <span style="font-weight:400;color:var(--muted)">(please be as descriptive as possible, so we can suggest the best remedies)</span></label><textarea id="symp" style="min-height:110px"></textarea></div>
+
+      <div class="row">
+        <div class="f"><span class="lab">Symptom duration</span>
+          <div class="dur"><input type="number" id="durN" min="1" aria-label="Duration number">
+          <select id="durU" aria-label="Duration unit"><option value=""></option><option>hours</option><option>days</option><option>weeks</option><option>months</option></select></div></div>
+        <div class="f"><span class="lab">Severity</span>
+          <div class="seg">
+            <div><input type="radio" name="sev" id="s1" value="Mild"><label for="s1">Mild</label></div>
+            <div><input type="radio" name="sev" id="s2" value="Moderate"><label for="s2">Moderate</label></div>
+            <div><input type="radio" name="sev" id="s3" value="Severe"><label for="s3">Severe</label></div>
+          </div></div>
+      </div>
+
+      <div class="err" id="err" role="alert"></div>
+      <button class="main" id="go" type="submit">Get Guidance</button>
+    </form>
+
+    <section class="card out" id="out" aria-live="polite">
+      <div class="empty">
+        <svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="46" fill="var(--sage-l)"/><rect x="30" y="30" width="36" height="36" rx="10" fill="var(--card)" stroke="var(--sage)" stroke-width="2"/><path d="M48 38v20M38 48h20" stroke="var(--blue)" stroke-width="4" stroke-linecap="round"/></svg>
+        <p>Your guidance will appear here once you complete the form.</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let lastText = '';
+
+[['condNone','cond'],['allergyNone','allergy'],['medsNone','meds']].forEach(([c,t])=>{
+  $(c).addEventListener('change',()=>{ $(t).disabled = $(c).checked; if($(c).checked) $(t).value=''; });
+});
+
+function validate(){
+  const v = {
+    name:$('name').value.trim(), age:$('age').value.trim(), gender:$('gender').value,
+    cond:$('condNone').checked ? 'No existing conditions' : $('cond').value.trim(),
+    allergy:$('allergyNone').checked ? 'No known allergies' : $('allergy').value.trim(),
+    meds:$('medsNone').checked ? 'No medications taken' : $('meds').value.trim(),
+    symp:$('symp').value.trim(), durN:$('durN').value.trim(), durU:$('durU').value,
+    sev:(document.querySelector('input[name=sev]:checked')||{}).value
+  };
+  const ok = v.name && v.age !== '' && +v.age>=0 && v.gender && v.cond && v.allergy && v.meds && v.symp && v.durN && v.durU && v.sev;
+  return ok ? v : null;
+}
+
+const CATS=[
+ {re:/fever|temperature|chills|bukhar|body ?ache|shiver/,dx:'a viral fever or flu',dxF:(a)=>a>=65?'a viral fever or flu, which can be more tiring at an older age':null,g:'a fever with body aches can really leave you drained',m:['para'],h:['Rest well and drink plenty of water, coconut water or soup.','Wear light clothing and keep the room comfortable.'],fever:1},
+ {re:/headache|migraine|head pain/,dx:'a tension-type headache',dxF:(a,g)=>(g==='Female'&&a>=12&&a<=50)?'a tension-type headache, which can also be linked to hormonal changes or periods':(a>=60?'a tension-type headache, though a new headache later in life is worth a check':null),g:'a headache can make everything feel harder',m:['para'],h:['Rest in a quiet, dim room and drink water.','A cool cloth on the forehead can ease discomfort.']},
+ {re:/body pain|muscle|back pain|joint|sprain|cramp|toothache/,dx:'muscle or joint pain',dxF:(a,g,s)=>(g==='Female'&&a>=12&&a<=50&&/period|menstrual|cramp/.test(s))?'period-related cramps':(a>=60?'muscle or joint pain, often linked to wear and tear with age':null),g:'aches like this can be quite draining',m:['para'],h:['Rest the area and apply a warm compress.','Gentle stretching may help once the pain eases.']},
+ {re:/runny|sneez|blocked nose|stuffy|nasal|\bcold\b|congestion/,dx:'a common cold',g:'a blocked or runny nose can be so irritating',m:['cet'],h:['Steam inhalation once or twice a day.','Sip warm water, tulsi or ginger tea.']},
+ {re:/itch|rash|hives|watery eyes|allerg/,dx:'a mild allergy',g:'itching and irritation can be really uncomfortable',m:['cet'],h:['Avoid the likely trigger such as dust or pollen.','Keep the skin cool and clean.']},
+ {re:/cough/,dx:'a cough, often from a viral infection',g:'a lingering cough can wear you out',m:[],h:['Warm water with a spoon of honey may soothe the throat.','Sip warm fluids and avoid cold drinks.']},
+ {re:/throat/,dx:'a viral sore throat',g:'a sore throat can make even simple things hard',m:[],h:['Gargle with warm salt water 2 to 3 times a day.','Sip warm fluids and rest your voice.']},
+ {re:/acidity|\bacid\b|heartburn|\bgas\b|bloat|indigestion|burning in (the )?(chest|stomach)/,dx:'acidity or indigestion',dxF:(a)=>a>=55?'acidity or indigestion, though new or lasting symptoms at this age are worth a check':null,g:'that burning, bloated feeling is really uncomfortable',m:['ant'],h:['Eat smaller, lighter meals and avoid spicy, oily food.','Avoid lying down for 2 hours after eating.']},
+ {re:/loose motion|loose stool|diarr|vomit|nausea|stomach upset/,dx:'a stomach upset',g:'a stomach upset can leave you feeling weak',m:['ors'],h:['Sip fluids often and eat light food like rice, curd or banana.','Wash hands well and take extra care with food and water.']}
+];
+const RED=/chest pain|chest tight|breath|wheez|faint|unconscious|confus|seizure|convuls|blood|black stool|stiff neck|paraly|slurred|one side|swelling (of|in) (the )?(face|lips|tongue|throat)|can.?t swallow|suicid/;
+const PARA=/paracetamol|acetaminophen|dolo|crocin|calpol|combiflam|sinarest|saridon|vicks action|d-cold|cold act|paracip/;
+const CETI=/cetirizine|levocet|okacet|cetzine|allegra|fexofenadine|montair|avil|chlorphen|cheston|sinarest|d-cold|cold act|antihistamine/;
+const MEDS={
+ para:{ok:(v,age,c,a,m)=>!/paracetamol|acetaminophen|dolo|crocin|calpol/.test(a)&&!/liver|hepat|jaundice|cirrhosis/.test(c)&&!PARA.test(m),
+   why:'Paracetamol is not suitable right now because of an allergy, a liver condition, or a recent paracetamol-containing medicine.',
+   get:age=>(age>=18&&age<65)?{name:'Dolo 650 (Paracetamol)',dosage:'1 tablet (650 mg) every 6 hours if needed, after food. No more than 4 tablets in 24 hours.',duration:'Up to 3 days. Stop once you feel better.'}:{name:'Crocin 500 (Paracetamol)',dosage:'1 tablet (500 mg) every 6 hours if needed, after food. No more than 4 tablets in 24 hours.',duration:'Up to 3 days. Stop once you feel better.'},
+   se:age=>age>=65?'Rash, swelling, yellow eyes or skin, or unusual tiredness; older adults should seek advice early':'Skin rash, swelling, or yellow eyes or skin'},
+ cet:{ok:(v,age,c,a,m)=>age<65&&!/cetirizine|antihistamine|okacet|cetzine/.test(a)&&!/kidney|renal|ckd|epilep|prostate|glaucoma/.test(c)&&!CETI.test(m),
+   why:'An antihistamine is not suitable right now because of your age, an allergy, a health condition, or a recent similar medicine.',
+   get:()=>({name:'Okacet 10 (Cetirizine)',dosage:'1 tablet (10 mg) once a day, preferably at night.',duration:'Up to 5 days. Stop once you feel better.'}),
+   se:age=>age<18?'Drowsiness, which may affect studies or sport; dry mouth':'Drowsiness or dry mouth; avoid driving after taking it'},
+ ant:{ok:(v,age,c,a)=>!/antacid|aluminium|aluminum|magnesium|digene|gelusil/.test(a)&&!/kidney|renal|ckd/.test(c),
+   why:'An antacid is not suitable right now because of an allergy or a kidney condition.',
+   get:age=>({name:'Digene (Aluminium + Magnesium hydroxide antacid)',dosage:'Take as per the pack label after meals, only when needed. Do not exceed the daily limit on the pack.'+(age>=65?' Keep it at least 2 hours apart from your other medicines.':''),duration:'Short term, up to 3 days.'}),
+   se:age=>age>=65?'Constipation or loose stools; it can affect how other regular medicines work':'Constipation or loose stools'},
+ ors:{ok:(v,age,c)=>!/kidney|renal|ckd|heart failure/.test(c),
+   why:'Oral rehydration salts need a doctor’s advice with your health condition.',
+   get:()=>({name:'Electral (Oral Rehydration Salts)',dosage:'Mix 1 sachet in 1 litre of clean, boiled and cooled water. Sip small amounts through the day.',duration:'Until loose motions or vomiting settle.'}),
+   se:age=>age>=65?'Vomiting that does not stop, very little urine, or dizziness':'Vomiting that does not stop or very little urine'}
+};
+
+function advise(v){
+  const age=+v.age,c=v.cond.toLowerCase(),a=v.allergy.toLowerCase(),m=v.meds.toLowerCase(),sx=v.symp.toLowerCase();
+  const first=v.name.trim().split(/\s+/)[0];
+  const days=(+v.durN)*({hours:1/24,days:1,weeks:7,months:30}[v.durU]||1);
+  const r={emergency:false,greeting:'',diagnosis:'',medicines:[],home_remedies:[],side_effects:[],see_doctor:'',no_medicine_reason:'',note:''};
+
+  if(RED.test(sx)){
+    r.emergency=true;
+    r.greeting='Hi '+first+', what you’re describing needs to be looked at promptly, so the first step below matters most.';
+    r.diagnosis='Your symptoms could be serious and cannot be safely managed with medicines at home.';
+    r.no_medicine_reason='Please do not self-medicate. Getting medical help comes first.';
+    r.see_doctor='Please see a doctor or go to the nearest hospital now. In an emergency, call 112.';
+    return r;
+  }
+
+  const hit=CATS.filter(x=>x.re.test(sx));
+  const reasons=[];
+  if(!hit.length){
+    r.greeting='Hi '+first+', thanks for sharing that. I can’t pin this down from what you’ve described, so here’s the safest next step.';
+    r.diagnosis='We could not match these symptoms to a common minor illness.';
+    r.no_medicine_reason='It is safest to have these symptoms checked before taking any medicine.';
+    r.see_doctor='Please see a doctor to find out the cause of your symptoms.';
+    return r;
+  }
+  const tail=v.sev==='Severe'?'Let’s go through what can help, and when it’s best to get checked.':(v.sev==='Mild'?'The good news is it usually settles with a little care, so here’s what I’d suggest.':'It usually eases with the right care, so here’s what I’d suggest.');
+  r.greeting='Hi '+first+', '+hit[0].g+'. '+tail;
+  r.diagnosis='This may be '+hit.slice(0,2).map(x=>(x.dxF&&x.dxF(age,v.gender,sx))||x.dx).join(' along with ')+'. Only a doctor can confirm this.';
+  const homes=[];hit.forEach(x=>homes.push(x.h[0]));hit.forEach(x=>homes.push(x.h[1]));
+  r.home_remedies=homes.slice(0,3);
+
+  const preg=/pregnan|breastfeed|nursing/.test(c+' '+sx);
+  if(age<12){
+    r.no_medicine_reason='Medicine doses for children depend on weight, so please ask a doctor or pharmacist.';
+    reasons.push('your child’s age means a doctor should advise on medicines');
+    r.home_remedies=['Offer warm fluids and plenty of rest.','Keep them comfortable and watch for any change.'];
+  } else if(preg){
+    r.no_medicine_reason='Medicines in pregnancy or breastfeeding should be advised by a doctor.';
+    reasons.push('medicines in pregnancy or breastfeeding need a doctor’s advice');
+  } else {
+    const ids=[...new Set(hit.flatMap(x=>x.m))], whys=[];
+    ids.forEach(id=>{const d=MEDS[id];
+      if(d.ok(v,age,c,a,m)){r.medicines.push(d.get(age));r.side_effects.push(d.se(age));} else whys.push(d.why);});
+    if(!r.medicines.length) r.no_medicine_reason=whys.length?whys.join(' '):'Home care is usually enough for this.';
+    if(whys.length&&r.medicines.length) r.note=whys.join(' ');
+    if(whys.length&&!r.medicines.length) reasons.push('a suitable medicine could not be safely chosen');
+  }
+
+  if(v.sev==='Severe') reasons.push('your symptoms are severe');
+  if(hit.some(x=>x.fever)&&days>3) reasons.push('your fever has lasted more than 3 days');
+  else if(days>7) reasons.push('your symptoms have lasted more than a week');
+  if(hit.some(x=>x.fever)&&age>=65) reasons.push('fever in older adults should be checked');
+  if(v.sev!=='Mild'&&/diabetes|heart|cardiac|kidney|liver|cancer|transplant|hiv|copd|immun/.test(c)) reasons.push('you have an existing health condition');
+  if(reasons.length) r.see_doctor='Please see a doctor soon, because '+reasons.slice(0,2).join(' and ')+'.';
+  if(r.medicines.length&&v.gender==='Female'&&age>=18&&age<=50&&!preg) r.note=(r.note?r.note+' ':'')+'If you may be pregnant or breastfeeding, please check with a doctor first.';
+  return r;
+}
+
+function toText(v,r){
+  const L = [r.greeting || ('Hello ' + v.name.split(' ')[0] + ', here is your guidance.')];
+  L.push('', 'Possible diagnosis: ' + r.diagnosis);
+  if(r.medicines && r.medicines.length){
+    L.push('', 'Recommended OTC medicine(s):');
+    r.medicines.forEach(m => L.push('- ' + m.name + ' | ' + m.dosage + ' | ' + m.duration));
+  } else { L.push('', 'Recommended OTC medicine(s): None. ' + (r.no_medicine_reason || '')); }
+  if(r.home_remedies && r.home_remedies.length){ L.push('', 'Simple home remedies:'); r.home_remedies.forEach(s => L.push('- ' + s)); }
+  if(r.see_doctor) L.push('', 'SEE A DOCTOR: ' + r.see_doctor);
+  if(r.side_effects && r.side_effects.length){
+    L.push('', 'Possible side effects:'); r.side_effects.forEach(s => L.push('- ' + s));
+  }
+  if(r.note) L.push('', r.note);
+  L.push('', 'General guidance only, not a confirmed diagnosis.');
+  return L.join('\n');
+}
+
+function render(v,r){
+  const doc = r.see_doctor ? `<div class="warn ${r.emergency?'':'soft'}"><b><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18h.01"/></svg>See a doctor${r.emergency?' now':''}</b>${esc(r.see_doctor)}</div>` : '';
+  const meds = (r.medicines && r.medicines.length)
+    ? r.medicines.map(m => `<div class="med"><strong>${esc(m.name)}</strong><span>${esc(m.dosage)}</span><span>${esc(m.duration)}</span></div>`).join('')
+    : `<p>${esc(r.no_medicine_reason || 'No medicine is advised for now.')}</p>`;
+  const home = (r.home_remedies && r.home_remedies.length) ? `<div class="sec hl alt"><h3>Simple home remedies</h3><ul>${r.home_remedies.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>` : '';
+  const se = (r.side_effects && r.side_effects.length) ? `<div class="sec"><h3>Possible side effects</h3><ul>${r.side_effects.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>` : '';
+  $('out').innerHTML = `<div class="res">
+    <div class="top"><h2>Your guidance</h2><button class="copy" id="copy" type="button">Copy</button></div>
+    <p class="hi">${esc(r.greeting || ('Hello ' + v.name.split(' ')[0] + ', here is your guidance.'))}</p>
+    <div class="sec first"><h3>Possible diagnosis</h3><p>${esc(r.diagnosis)}</p></div>
+    <div class="sec hl"><h3>Recommended OTC medicine(s)</h3>${meds}</div>
+    ${home}
+    ${doc}
+    ${se}
+    <p class="note">${esc(r.note||'')} General guidance only, not a confirmed diagnosis.</p></div>`;
+  lastText = toText(v,r);
+  $('copy').addEventListener('click', copy);
+}
+
+async function copy(){
+  const b = $('copy');
+  let ok = false;
+  try { await navigator.clipboard.writeText(lastText); ok = true; } catch(e){}
+  if(!ok){ try{ const t=document.createElement('textarea'); t.value=lastText; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select(); ok=document.execCommand('copy'); t.remove(); }catch(e){} }
+  b.textContent = ok ? 'Copied ✓' : 'Copy not available';
+  setTimeout(()=>{ b.textContent='Copy'; }, 1800);
+}
+
+$('form').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = validate();
+  if(!v){ $('err').textContent = 'Please complete every field before continuing.'; return; }
+  $('err').textContent = '';
+  render(v, advise(v));
+  if(window.matchMedia('(max-width:860px)').matches) $('out').scrollIntoView({behavior:'smooth',block:'start'});
+});
+</script>
+</body>
+</html>
